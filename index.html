@@ -1,89 +1,88 @@
-<!DOCTYPE html>
-<html lang="et">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toote tagasiside</title>
+<!DOCTYPE html> <!-- This tells the browser what type of document this is -->
+<html lang="et"> <!-- This shows that the page language is Estonian -->
+<head> <!-- This part is for the title and other important info for search engines -->
+    <meta charset="UTF-8"> <!-- This sets the character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- This makes the page look good on mobile devices -->
+    <title>Toote tagasiside</title> <!-- This is the title that appears in the browser tab -->
 </head>
-<body>
-<h1>Toote tagasiside</h1>
-<p id="questionText">Kas teil on pretensioone toote kvaliteetsuse osas?</p>
-<button id="yesButton" onclick="answer('yes')">Jah</button>
-<button id="noButton" onclick="answer('no')">Ei</button>
+<body> <!-- This is where the main content of the page goes -->
+<h1>Toote tagasiside</h1> <!-- This is the biggest heading on the page -->
+<p id="questionText">Kas teil on pretensioone toote kvaliteetsuse osas?</p> <!-- This is the question text -->
+<button id="yesButton" onclick="answer('yes')">Jah</button> <!-- This button calls the answer function with 'yes' -->
+<button id="noButton" onclick="answer('no')">Ei</button> <!-- This button calls the answer function with 'no' -->
 
-<p id="feedback"></p>
-<button id="backButton" style="display: none;" onclick="goBack()">Tagasi</button> <!-- Tagasi nupp, peidetud alguses -->
+<p id="feedback"></p> <!-- This is an empty paragraph for showing feedback -->
+<button id="backButton" style="display: none;" onclick="goBack()">Tagasi</button> <!-- This is the back button, hidden at the start -->
 
 <script>
-    // Küsimuste massiiv
+    // This is an array of questions
     const questions = [
-        "Kas soovite meile helistada või saata kirja?"
+        "Kas soovite meile helistada või saata kirja?" // This is the first question
     ];
 
-    let currentQuestion = 0;  // Näitab, millise küsimuse juures me oleme
+    let currentQuestion = 0;  // This shows which question we are on
 
-    function answer(response) {
-        document.getElementById("backButton").style.display = "inline";  // Kuvame "Tagasi" nupu peale esimest vastust
+    function answer(response) { // This function runs when a button is clicked
+        document.getElementById("backButton").style.display = "inline";  // Show the back button after the first answer
 
-        if (response === 'yes') {
-            // Kuvame järgmise küsimuse ja muudetud nupud
-            document.getElementById("feedback").innerText = "";  // Eemaldame kõik eelnevad sõnumid
-            document.getElementById("questionText").innerText = questions[currentQuestion];
-            document.getElementById("yesButton").innerText = "Helistamine";
-            document.getElementById("yesButton").setAttribute("onclick", "contactOption('call')");
-            document.getElementById("noButton").innerText = "Saada kiri";
-            document.getElementById("noButton").setAttribute("onclick", "contactOption('email')");
-        } else {
-            // Kui vastus on "Ei"
+        if (response === 'yes') { // If the answer is 'yes'
+            // Show the next question and change the buttons
+            document.getElementById("feedback").innerText = "";  // Remove any previous messages
+            document.getElementById("questionText").innerText = questions[currentQuestion]; // Show the current question
+            document.getElementById("yesButton").innerText = "Helistamine"; // Change the yes button text
+            document.getElementById("yesButton").setAttribute("onclick", "contactOption('call')"); // Set the call option
+            document.getElementById("noButton").innerText = "Saada kiri"; // Change the no button text
+            document.getElementById("noButton").setAttribute("onclick", "contactOption('email')"); // Set the email option
+        } else { // If the answer is 'no'
+            // Show a nice message and a link to other products
             document.getElementById("feedback").innerHTML = "Suurepärane! Meeldivat toote kasutamist!" +
                 "<br><a href='https://www.google.com' target='_blank'>Siit on võimalik näha meie teisi pakutavaid tooteid</a>";
 
-            // Peidame nupud
+            // Hide the buttons
             document.getElementById("yesButton").style.display = "none";
             document.getElementById("noButton").style.display = "none";
         }
     }
 
-    function contactOption(option) {
-        if (option === 'call') {
-            // Kuvame telefoninumbri
-            document.getElementById("feedback").innerText = "Palun helistage meile: 1111 1111";
-        } else if (option === 'email') {
-            // Kuvame tekstikasti kirja kirjutamiseks
+    function contactOption(option) { // This function runs when the call or email option is chosen
+        if (option === 'call') { // If the option is to call
+            // Show the phone number
+            document.getElementById("feedback").innerText = "Palun helistage meile: 1111 1111"; // Show the phone number
+        } else if (option === 'email') { // If the option is to email
+            // Show a box for writing a message
             document.getElementById("feedback").innerHTML =
                 `<h3>Või kirjuta vabas vormis siia ja lisa palun enda kontakt:</h3>
                     <textarea id="feedbackBox" rows="5" cols="50"></textarea><br><br>
                     <button onclick="sendMessage()">Saada</button>
-                    <p id="sendMessageStatus"></p>`;
+                    <p id="sendMessageStatus"></p>`; // A place to show if the message was sent
         }
 
-        // Peidame nupud pärast valikut
+        // Hide the buttons after choosing an option
         document.getElementById("yesButton").style.display = "none";
         document.getElementById("noButton").style.display = "none";
     }
 
-    function sendMessage() {
-        document.getElementById("sendMessageStatus").innerText = "Aitäh! Teie kiri on saadetud! Võtame teiega ühendust 3 tööpäeva jooksul.";
+    function sendMessage() { // This function runs when the send button is clicked
+        document.getElementById("sendMessageStatus").innerText = "Aitäh! Teie kiri on saadetud! Võtame teiega ühendust 3 tööpäeva jooksul."; // Show a thank you message
     }
 
-    function goBack() {
-        // Läheme algse küsimuse juurde tagasi
-        document.getElementById("questionText").innerText = "Kas teil on pretensioone toote kvaliteetsuse osas?";
-        document.getElementById("yesButton").innerText = "Jah";
-        document.getElementById("yesButton").setAttribute("onclick", "answer('yes')");
-        document.getElementById("noButton").innerText = "Ei";
-        document.getElementById("noButton").setAttribute("onclick", "answer('no')");
+    function goBack() { // This function goes back to the original question
+        document.getElementById("questionText").innerText = "Kas teil on pretensioone toote kvaliteetsuse osas?"; // Show the original question
+        document.getElementById("yesButton").innerText = "Jah"; // Reset the yes button
+        document.getElementById("yesButton").setAttribute("onclick", "answer('yes')"); // Reset the yes button function
+        document.getElementById("noButton").innerText = "Ei"; // Reset the no button
+        document.getElementById("noButton").setAttribute("onclick", "answer('no')"); // Reset the no button function
 
-        // Taas kuvame algsed nupud ja peidame tagasiside osa
-        document.getElementById("yesButton").style.display = "inline";
-        document.getElementById("noButton").style.display = "inline";
-        document.getElementById("feedback").innerText = "";  // Tühjendame tagasiside
-        document.getElementById("backButton").style.display = "none";  // Peidame "Tagasi" nupu
+        // Show the original buttons and hide the feedback part
+        document.getElementById("yesButton").style.display = "inline"; // Show the yes button
+        document.getElementById("noButton").style.display = "inline"; // Show the no button
+        document.getElementById("feedback").innerText = "";  // Clear the feedback message
+        document.getElementById("backButton").style.display = "none";  // Hide the back button
     }
 </script>
 
 <p>Teil on alati õigus toode tagastada 14 päeva jooksul alates ostu sooritamise hetkest. Selleks palun pöörduge
-    klienditoe poole.</p>
+    klienditoe poole.</p> <!-- This tells the user they can return the product within 14 days -->
 
 </body>
 </html>
