@@ -1,88 +1,130 @@
-<!DOCTYPE html> <!-- This tells the browser what type of document this is -->
-<html lang="et"> <!-- This shows that the page language is Estonian -->
-<head> <!-- This part is for the title and other important info for search engines -->
-    <meta charset="UTF-8"> <!-- This sets the character encoding to UTF-8 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- This makes the page look good on mobile devices -->
-    <title>Toote tagasiside</title> <!-- This is the title that appears in the browser tab -->
+<!DOCTYPE html> 
+<!-- This tells the browser what type of document this is -->
+<html lang="et"> 
+<!-- This shows that the page language is Estonian -->
+
+<head> 
+    <!-- This part is for the title and other important info for search engines -->
+    <meta charset="UTF-8"> 
+    <!-- This sets the character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <!-- This makes the page look good on mobile devices -->
+    <title>Toote tagasiside</title> 
+    <!-- This is the title that appears in the browser tab -->
 </head>
-<body> <!-- This is where the main content of the page goes -->
-<h1>Toote tagasiside</h1> <!-- This is the biggest heading on the page -->
-<p id="questionText">Kas teil on pretensioone toote kvaliteetsuse osas?</p> <!-- This is the question text -->
-<button id="yesButton" onclick="answer('yes')">Jah</button> <!-- This button calls the answer function with 'yes' -->
-<button id="noButton" onclick="answer('no')">Ei</button> <!-- This button calls the answer function with 'no' -->
 
-<p id="feedback"></p> <!-- This is an empty paragraph for showing feedback -->
-<button id="backButton" style="display: none;" onclick="goBack()">Tagasi</button> <!-- This is the back button, hidden at the start -->
+<body> 
+    <!-- This is where the main content of the page goes -->
+    <h1>Toote tagasiside</h1> 
+    <!-- This is the biggest heading on the page -->
 
-<script>
-    // This is an array of questions
-    const questions = [
-        "Kas soovite meile helistada või saata kirja?" // This is the first question
-    ];
+    <p id="questionText">Kas teil on pretensioone toote kvaliteetsuse osas?</p> 
+    <!-- This is the question text -->
+    <button id="yesButton" onclick="answer('yes')">Jah</button> 
+    <!-- This button calls the answer function with 'yes' -->
+    <button id="noButton" onclick="answer('no')">Ei</button> 
+    <!-- This button calls the answer function with 'no' -->
 
-    let currentQuestion = 0;  // This shows which question we are on
+    <p id="feedback"></p> 
+    <!-- This is an empty paragraph for showing feedback -->
+    <button id="backButton" style="display: none;" onclick="goBack()">Tagasi</button> 
+    <!-- This is the back button, hidden at the start -->
 
-    function answer(response) { // This function runs when a button is clicked
-        document.getElementById("backButton").style.display = "inline";  // Show the back button after the first answer
+    <script>
 
-        if (response === 'yes') { // If the answer is 'yes'
-            // Show the next question and change the buttons
-            document.getElementById("feedback").innerText = "";  // Remove any previous messages
-            document.getElementById("questionText").innerText = questions[currentQuestion]; // Show the current question
-            document.getElementById("yesButton").innerText = "Helistamine"; // Change the yes button text
-            document.getElementById("yesButton").setAttribute("onclick", "contactOption('call')"); // Set the call option
-            document.getElementById("noButton").innerText = "Saada kiri"; // Change the no button text
-            document.getElementById("noButton").setAttribute("onclick", "contactOption('email')"); // Set the email option
-        } else { // If the answer is 'no'
-            // Show a nice message and a link to other products
-            document.getElementById("feedback").innerHTML = "Suurepärane! Meeldivat toote kasutamist!" +
-                "<br><a href='https://www.google.com' target='_blank'>Siit on võimalik näha meie teisi pakutavaid tooteid</a>";
+        // This is an array of questions
+        const questions = [
+            "Kas soovite meile helistada või saata kirja?" // This is the first question
+        ];
 
-            // Hide the buttons
+        let currentQuestion = 0;  
+        // This shows which question we are on
+
+        // This function runs when a button is clicked
+        function answer(response) { 
+            document.getElementById("backButton").style.display = "inline";  
+            // Show the back button after the first answer
+
+            if (response === 'yes') { 
+                // Show the next question and change the buttons
+                document.getElementById("feedback").innerText = "";  
+                // Remove any previous messages
+                document.getElementById("questionText").innerText = questions[currentQuestion]; 
+                // Show the current question
+                document.getElementById("yesButton").innerText = "Helistamine"; 
+                // Change the yes button text
+                document.getElementById("yesButton").setAttribute("onclick", "contactOption('call')"); 
+                // Set the call option
+                document.getElementById("noButton").innerText = "Saada kiri"; 
+                // Change the no button text
+                document.getElementById("noButton").setAttribute("onclick", "contactOption('email')"); 
+                // Set the email option
+            } else { 
+                // If the answer is 'no'
+                document.getElementById("feedback").innerHTML = "Suurepärane! Meeldivat toote kasutamist!" +
+                    "<br><a href='https://www.google.com' target='_blank'>Siit on võimalik näha meie teisi pakutavaid tooteid</a>";
+
+                // Hide the buttons
+                document.getElementById("yesButton").style.display = "none";
+                document.getElementById("noButton").style.display = "none";
+            }
+        }
+
+        // This function runs when the call or email option is chosen
+        function contactOption(option) { 
+            if (option === 'call') { 
+                // If the option is to call
+                document.getElementById("feedback").innerText = "Palun helistage meile: 1111 1111"; 
+                // Show the phone number
+            } else if (option === 'email') { 
+                // If the option is to email
+                document.getElementById("feedback").innerHTML =
+                    `<h3>Või kirjuta vabas vormis siia ja lisa palun enda kontakt:</h3>
+                        <textarea id="feedbackBox" rows="5" cols="50"></textarea><br><br>
+                        <button onclick="sendMessage()">Saada</button>
+                        <p id="sendMessageStatus"></p>`; 
+                // A place to show if the message was sent
+            }
+
+            // Hide the buttons after choosing an option
             document.getElementById("yesButton").style.display = "none";
             document.getElementById("noButton").style.display = "none";
         }
-    }
 
-    function contactOption(option) { // This function runs when the call or email option is chosen
-        if (option === 'call') { // If the option is to call
-            // Show the phone number
-            document.getElementById("feedback").innerText = "Palun helistage meile: 1111 1111"; // Show the phone number
-        } else if (option === 'email') { // If the option is to email
-            // Show a box for writing a message
-            document.getElementById("feedback").innerHTML =
-                `<h3>Või kirjuta vabas vormis siia ja lisa palun enda kontakt:</h3>
-                    <textarea id="feedbackBox" rows="5" cols="50"></textarea><br><br>
-                    <button onclick="sendMessage()">Saada</button>
-                    <p id="sendMessageStatus"></p>`; // A place to show if the message was sent
+        // This function runs when the send button is clicked
+        function sendMessage() { 
+            document.getElementById("sendMessageStatus").innerText = "Aitäh! Teie kiri on saadetud! Võtame teiega ühendust 3 tööpäeva jooksul."; 
+            // Show a thank you message
         }
 
-        // Hide the buttons after choosing an option
-        document.getElementById("yesButton").style.display = "none";
-        document.getElementById("noButton").style.display = "none";
-    }
+        // This function goes back to the original question
+        function goBack() { 
+            document.getElementById("questionText").innerText = "Kas teil on pretensioone toote kvaliteetsuse osas?"; 
+            // Show the original question
+            document.getElementById("yesButton").innerText = "Jah"; 
+            // Reset the yes button
+            document.getElementById("yesButton").setAttribute("onclick", "answer('yes')"); 
+            // Reset the yes button function
+            document.getElementById("noButton").innerText = "Ei"; 
+            // Reset the no button
+            document.getElementById("noButton").setAttribute("onclick", "answer('no')"); 
+            // Reset the no button function
 
-    function sendMessage() { // This function runs when the send button is clicked
-        document.getElementById("sendMessageStatus").innerText = "Aitäh! Teie kiri on saadetud! Võtame teiega ühendust 3 tööpäeva jooksul."; // Show a thank you message
-    }
+            // Show the original buttons and hide the feedback part
+            document.getElementById("yesButton").style.display = "inline"; 
+            // Show the yes button
+            document.getElementById("noButton").style.display = "inline"; 
+            // Show the no button
+            document.getElementById("feedback").innerText = "";  
+            // Clear the feedback message
+            document.getElementById("backButton").style.display = "none";  
+            // Hide the back button
+        }
+    </script>
 
-    function goBack() { // This function goes back to the original question
-        document.getElementById("questionText").innerText = "Kas teil on pretensioone toote kvaliteetsuse osas?"; // Show the original question
-        document.getElementById("yesButton").innerText = "Jah"; // Reset the yes button
-        document.getElementById("yesButton").setAttribute("onclick", "answer('yes')"); // Reset the yes button function
-        document.getElementById("noButton").innerText = "Ei"; // Reset the no button
-        document.getElementById("noButton").setAttribute("onclick", "answer('no')"); // Reset the no button function
-
-        // Show the original buttons and hide the feedback part
-        document.getElementById("yesButton").style.display = "inline"; // Show the yes button
-        document.getElementById("noButton").style.display = "inline"; // Show the no button
-        document.getElementById("feedback").innerText = "";  // Clear the feedback message
-        document.getElementById("backButton").style.display = "none";  // Hide the back button
-    }
-</script>
-
-<p>Teil on alati õigus toode tagastada 14 päeva jooksul alates ostu sooritamise hetkest. Selleks palun pöörduge
-    klienditoe poole.</p> <!-- This tells the user they can return the product within 14 days -->
+    <p>Teil on alati õigus toode tagastada 14 päeva jooksul alates ostu sooritamise hetkest. Selleks palun pöörduge
+        klienditoe poole.</p> 
+    <!-- This tells the user they can return the product within 14 days -->
 
 </body>
 </html>
